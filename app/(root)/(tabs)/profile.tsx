@@ -1,10 +1,19 @@
-import { useUser } from "@clerk/clerk-expo";
+import { useUser, useAuth } from "@clerk/clerk-expo";
 import { Image, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import InputField from "@/components/InputField";
+import CustomButton from "@/components/CustomButton";
+import { useRouter } from "expo-router";
 
 const Profile = () => {
   const { user } = useUser();
+  const { signOut } = useAuth();
+  const router = useRouter();
+
+  const handleSignOut = () => {
+    signOut();
+    router.replace("/(auth)/sign-in");
+  };
 
   return (
     <SafeAreaView className="flex-1">
@@ -60,6 +69,11 @@ const Profile = () => {
               editable={false}
             />
           </View>
+          <CustomButton 
+            title="Log Out" 
+            onPress={handleSignOut} 
+            className="mt-5" 
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
